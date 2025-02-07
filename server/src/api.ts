@@ -1,8 +1,8 @@
 import Elysia from "elysia";
-import userApi from "./features/user/user.api";
+import GoogleSheet from "./libs/google/ggsheet";
 
 const api = new Elysia({ prefix: "/api" })
-  .use(userApi)
+  .get("/", () => GoogleSheet.getData())
 ;
 
 export default api;
