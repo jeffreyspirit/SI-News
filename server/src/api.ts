@@ -1,8 +1,8 @@
 import Elysia from "elysia";
-import GoogleSheet from "./libs/google/ggsheet";
+import newsApi from "./features/news/news.api";
 
 const api = new Elysia({ prefix: "/api" })
-  .get("/", () => GoogleSheet.getData())
+  .use(newsApi)
 ;
 
 export default api;
