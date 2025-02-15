@@ -90,20 +90,8 @@ function AboutPage() {
             <p className="text-gray-600">6501XXX • SI 133</p>
             <div className="flex justify-center gap-3 mt-3">
               <a
-                href="https://facebook.com/"
+                href="https://instagram.com/___bom.s"
                 target="_blank"
-                rel="noopener noreferrer"
-              >
-                <img
-                  src="https://cdn-icons-png.flaticon.com/512/733/733547.png"
-                  alt="Facebook"
-                  className="w-6 h-6"
-                />
-              </a>
-              <a
-                href="https://instagram.com/"
-                target="_blank"
-                rel="noopener noreferrer"
               >
                 <img
                   src="https://cdn-icons-png.flaticon.com/512/2111/2111463.png"
@@ -111,18 +99,7 @@ function AboutPage() {
                   className="w-6 h-6"
                 />
               </a>
-              <a
-                href="https://line.me/"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                <img
-                  src="https://cdn-icons-png.flaticon.com/512/2111/2111774.png"
-                  alt="Line ID"
-                  className="w-6 h-6"
-                />
-              </a>
-              <a href="mailto:bom@example.com">
+              <a href="mailto:sompakorn.lap@student.mahidol.edu">
                 <img
                   src="https://cdn-icons-png.flaticon.com/512/732/732200.png"
                   alt="Email"
