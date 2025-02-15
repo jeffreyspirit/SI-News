@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { NewsArticle } from "@/libs/mock/newsMock";
+import { NewsArticle } from "./type";
 
 type NewsCardProps = {
   article: NewsArticle;
