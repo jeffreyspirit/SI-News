@@ -1,5 +1,5 @@
 import { Elysia } from "elysia";
-import connectDatabase from "./libs/mongoose/connectDatabase";
+//import connectDatabase from "./libs/mongoose/connectDatabase";
 import api from "./api";
 import swagger from "@elysiajs/swagger";
 import staticPlugin from "@elysiajs/static";

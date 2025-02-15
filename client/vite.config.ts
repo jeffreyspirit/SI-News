@@ -1,8 +1,8 @@
 import { defineConfig } from 'vite'
 import viteReact from '@vitejs/plugin-react'
 import { TanStackRouterVite } from "@tanstack/router-plugin/vite";
-import path from "path";
-// https://vite.dev/config/
+import path from "path-browserify";
+
 export default defineConfig({
   plugins: [
     TanStackRouterVite(),
