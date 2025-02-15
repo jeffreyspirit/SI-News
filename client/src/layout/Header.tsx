@@ -2,7 +2,7 @@ import { Link } from "@tanstack/react-router";
 
 function Header() {
   return (
-    <header className="bg-gray-900 text-white shadow-md fixed top-0 left-0 w-full z-10">
+    <header className="bg-gray-900 text-white shadow-md w-full">
       <div className="container mx-auto px-6 py-4 flex justify-between items-center">
         {/* Logo / Title */}
         <h1 className="text-2xl font-bold">📢 SI - NEWS</h1>

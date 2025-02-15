@@ -1,3 +1,5 @@
+import Footer from "@/layout/Footer";
+import Header from "@/layout/Header";
 import { createRootRoute, Outlet } from "@tanstack/react-router";
 
 export const Route = createRootRoute({
@@ -7,17 +9,13 @@ export const Route = createRootRoute({
 function Layout() {
   return (
     <div className="grid grid-rows-[auto_1fr_auto] min-h-screen w-screen">
-      <header className="w-full p-4 text-center bg-black text-gray-100">
-        <h1 className="text-xl">SI - NEWS</h1>
-      </header>
+      <Header />
 
-      <main className="p-2">
+      <main className="p-2 bg-gray-100">
         <Outlet />
       </main>
 
-      <footer className="w-full p-2 bg-black text-gray-100">
-        footer
-      </footer>
+      <Footer />
     </div>
   );
 }
