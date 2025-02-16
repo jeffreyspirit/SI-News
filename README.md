@@ -1,3 +1,6 @@
+# University News Application
+We are focusing on organizing a new structure for news in our community.
+
 # BERM Stack
 
 ## Overview
