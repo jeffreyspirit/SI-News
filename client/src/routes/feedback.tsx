@@ -23,7 +23,7 @@ function FeedbackPage() {
   };
 
   return (
-    <section className="p-6 bg-gray-100 min-h-screen pt-20">
+    <section className="p-6">
       <div className="max-w-3xl mx-auto bg-white shadow-lg rounded-lg p-6">
         <h1 className="text-3xl font-bold text-center text-blue-600">
           ⭐ Feedback

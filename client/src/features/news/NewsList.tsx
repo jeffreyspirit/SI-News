@@ -1,4 +1,4 @@
-import { NewsArticle } from "./type";
+import { NewsArticle } from "./schema";
 import NewsCard from "./NewsCard";
 
 type NewsListProps = {
