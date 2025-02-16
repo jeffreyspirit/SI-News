@@ -7,13 +7,13 @@ export const mockNews = [
     publishedDate: "2025-02-10",
     endDate: "2025-02-20",
     status: "Active",
-    type: "Recruitment",
+    category: "Recruitment",
     link: "https://example.com/register",
     photos: [
       "https://via.placeholder.com/600x400",
       "https://via.placeholder.com/600x400",
     ],
-    year: ["Year 1", "Year 2", "Year 3"], // ✅ Assigned multiple years
+    years: ["Year 1", "Year 2", "Year 3"], // ✅ Assigned multiple years
   },
   {
     id: 2,
@@ -23,8 +23,8 @@ export const mockNews = [
     publishedDate: "2025-02-15",
     endDate: "2025-03-01",
     status: "Inactive",
-    type: "Important",
+    category: "Important",
     photos: ["https://via.placeholder.com/600x400"],
-    year: ["Year 4", "Year 5"], // ✅ Assigned multiple years
+    years: ["Year 4", "Year 5"], // ✅ Assigned multiple years
   },
 ];
