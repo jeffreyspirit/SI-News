@@ -12,7 +12,7 @@ class GoogleSheet {
       data: { values },
     } = await ggsheet.spreadsheets.values.get({
       spreadsheetId: process.env.GGSHEET_SPREADSHEETID,
-      range: "Sheet1",
+      range: process.env.GGSHEET_SHEETNAME,
     });
 
     return values;
