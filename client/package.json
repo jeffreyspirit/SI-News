@@ -28,6 +28,7 @@
     "@tanstack/router-devtools": "^1.98.4",
     "@tanstack/router-plugin": "^1.98.6",
     "@types/node": "^22.13.1",
+    "@types/path-browserify": "^1.0.3",
     "@types/react": "^18.3.16",
     "@types/react-dom": "^18.3.5",
     "@vitejs/plugin-react": "^4.3.4",
