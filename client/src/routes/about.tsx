@@ -6,9 +6,9 @@ export const Route = createFileRoute("/about")({
 
 function AboutPage() {
   return (
-    <section className="p-6 bg-gray-100 min-h-screen pt-20">
+    <>
       {/* About Section */}
-      <div className="max-w-3xl mx-auto bg-white shadow-lg rounded-lg p-6">
+      <section className="max-w-3xl mx-auto bg-white shadow-lg rounded-lg p-6">
         <h1 className="text-3xl font-bold text-center text-blue-600">
           About Us
         </h1>
@@ -25,10 +25,10 @@ function AboutPage() {
           พวกเราตั้งใจจะสร้างระบบประชาสัมพันธ์ข่าวใหม่ให้กับทุกคน
           ใช้เป็นระบบติดตามข่าวสารได้ง่ายขึ้น
         </p>
-      </div>
+      </section>
 
       {/* Developer Profiles Section */}
-      <div className="max-w-4xl mx-auto mt-10">
+      <section className="max-w-4xl mx-auto mt-10">
         <h2 className="text-2xl font-bold text-center text-gray-700">
           👨‍💻 Meet Our Developers
         </h2>
@@ -87,11 +87,12 @@ function AboutPage() {
           {/* Developer 2 - Sompakorn (Bom) */}
           <div className="bg-white shadow-md rounded-lg p-6 text-center">
             <h3 className="text-xl font-semibold">Sompakorn (Bom)</h3>
-            <p className="text-gray-600">6501XXX • SI 133</p>
+            <p className="text-gray-600">6501034 • SI 133</p>
             <div className="flex justify-center gap-3 mt-3">
               <a
                 href="https://instagram.com/___bom.s"
                 target="_blank"
+                rel="noopener noreferrer"
               >
                 <img
                   src="https://cdn-icons-png.flaticon.com/512/2111/2111463.png"
@@ -109,8 +110,8 @@ function AboutPage() {
             </div>
           </div>
         </div>
-      </div>
-    </section>
+      </section>
+      </>
   );
 }
 
