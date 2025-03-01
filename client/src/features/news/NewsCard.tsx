@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { NewsArticle } from "./schema";
+import emptyImage from "@/assets/empty.jpg";
 
 type NewsCardProps = {
   article: NewsArticle;
@@ -24,7 +25,7 @@ function NewsCard({ article }: NewsCardProps) {
     <div className="bg-white shadow-md rounded-lg overflow-hidden border border-gray-300 transition-transform hover:scale-105 hover:shadow-lg p-3">
       {/* Display first image (or default placeholder if none) */}
       <img
-        src={photos[0] || "https://via.placeholder.com/400x250"}
+        src={photos.length > 0 ? photos[0] : emptyImage }
         alt={title}
         className="w-full h-40 object-cover rounded"
       />
