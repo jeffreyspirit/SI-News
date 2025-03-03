@@ -25,21 +25,19 @@ body {
 
 /* Ensure dialog is properly displayed */
 dialog {
-  display: block !important; /* Force rendering */
-  border: none;
-  padding: 1rem;
+  display: flex !important;  /* Ensures it's rendered */
+  position: fixed;           /* Keeps it centered */
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
   background: white;
+  padding: 2rem;
   border-radius: 8px;
   box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.3);
   width: 90%;
-  max-width: 500px;
-}
-
-/* Ensure dialog appears centered */
-dialog[open] {
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  max-width: 600px; /* Slightly larger */
+  max-height: 80vh; /* Prevents overflow */
+  overflow-y: auto; /* Enables scrolling */
 }
 
 /* Backdrop for modal */
@@ -47,7 +45,7 @@ dialog::backdrop {
   background: rgba(0, 0, 0, 0.5);
 }
 
-/* Dark mode styles for the modal */
+/* Dark mode styles */
 .dark dialog {
   background: #2a2a2a;
   color: #e5e5e5;
