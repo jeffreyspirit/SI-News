@@ -124,16 +124,22 @@ function NewsCard({ article }: NewsCardProps) {
         </div>
       </div>
 
-      {/* 🔹 Always Render Dialog But Hide It Instead of Removing */}
-      <dialog ref={dialogRef} className={`dialog-overlay ${isOpen ? "flex" : "hidden"}`} onClick={closeModal}>
-        <div className="dialog-content" onClick={(e) => e.stopPropagation()}>
-          <button className="close-button" onClick={closeModal}>
-            ✖
-          </button>
-          <h2 className="text-2xl font-bold mb-4">{title}</h2>
-          <p className="text-gray-700 dark:text-gray-300">{description}</p>
-        </div>
-      </dialog>
+      {/* 🔹 Render Dialog Only When `isOpen === true` */}
+      {isOpen && (
+        <dialog
+          ref={dialogRef}
+          className="dialog-overlay"
+          onClick={closeModal}
+        >
+          <div className="dialog-content" onClick={(e) => e.stopPropagation()}>
+            <button className="close-button" onClick={closeModal}>
+              ✖
+            </button>
+            <h2 className="text-2xl font-bold mb-4">{title}</h2>
+            <p className="text-gray-700 dark:text-gray-300">{description}</p>
+          </div>
+        </dialog>
+      )}
     </>
   );
 }
