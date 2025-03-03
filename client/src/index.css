@@ -25,7 +25,7 @@ body {
 
 /* Fullscreen Flexbox Centering */
 .dialog-overlay {
-  display: flex !important;
+  display: none;
   position: fixed;
   inset: 0;
   align-items: center;
@@ -33,6 +33,11 @@ body {
   background: rgba(0, 0, 0, 0.6);
   border: none;
   padding: 0;
+}
+
+/* Show the modal when it is open */
+.dialog-overlay[open] {
+  display: flex;
 }
 
 /* Large Pop-up Content */
