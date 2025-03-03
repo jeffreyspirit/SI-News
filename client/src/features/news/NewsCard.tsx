@@ -25,7 +25,7 @@ function NewsCard({ article }: NewsCardProps) {
   // Function to open the modal
   const openModal = () => {
     if (dialogRef.current) {
-      dialogRef.current.showModal();
+      dialogRef.current.show();
     }
   };
 
