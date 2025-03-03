@@ -2,8 +2,76 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Global Reset */
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+}
+
+/* Body Styling */
+body {
+  font-family: 'Inter', sans-serif;
+  background-color: white;
+  color: black;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+/* Dark Mode Support */
+.dark body {
+  background-color: #1a1a1a;
+  color: #e5e5e5;
+}
+
+/* Ensure dialog is properly displayed */
+dialog {
+  display: block !important; /* Force rendering */
+  border: none;
+  padding: 1rem;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.3);
+  width: 90%;
+  max-width: 500px;
+}
+
+/* Ensure dialog appears centered */
+dialog[open] {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Backdrop for modal */
+dialog::backdrop {
+  background: rgba(0, 0, 0, 0.5);
+}
+
+/* Dark mode styles for the modal */
+.dark dialog {
+  background: #2a2a2a;
+  color: #e5e5e5;
+}
+
+.dark dialog::backdrop {
+  background: rgba(0, 0, 0, 0.8);
+}
+
+/* Button styling */
+button {
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+}
+
+button:hover {
+  opacity: 0.8;
+}
+
+.dark button {
+  background-color: #333;
+  color: white;
+}
+
+.dark button:hover {
+  background-color: #444;
 }
