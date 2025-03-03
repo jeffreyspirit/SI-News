@@ -23,22 +23,28 @@ function NewsCard({ article }: NewsCardProps) {
   const [isOpen, setIsOpen] = useState(false);
   const dialogRef = useRef<HTMLDialogElement>(null);
 
-  // Close all dialogs when the page loads
+  // Ensure the modal is closed when the page loads
   useEffect(() => {
     if (dialogRef.current) {
       dialogRef.current.close();
     }
   }, []);
 
-  // Function to open the modal
+  // Function to open the modal and force center
   const openModal = (e: React.MouseEvent) => {
     e.stopPropagation();
     setIsOpen(true);
+    if (dialogRef.current) {
+      dialogRef.current.showModal();
+    }
   };
 
   // Function to close the modal
   const closeModal = () => {
     setIsOpen(false);
+    if (dialogRef.current) {
+      dialogRef.current.close();
+    }
   };
 
   return (
@@ -118,18 +124,16 @@ function NewsCard({ article }: NewsCardProps) {
         </div>
       </div>
 
-      {/* 🔹 Render Dialog Only If `isOpen === true` */}
-      {isOpen && (
-        <dialog ref={dialogRef} className="dialog-overlay" onClick={closeModal}>
-          <div className="dialog-content" onClick={(e) => e.stopPropagation()}>
-            <button className="close-button" onClick={closeModal}>
-              ✖
-            </button>
-            <h2 className="text-2xl font-bold mb-4">{title}</h2>
-            <p className="text-gray-700 dark:text-gray-300">{description}</p>
-          </div>
-        </dialog>
-      )}
+      {/* 🔹 Always Render Dialog But Hide It Instead of Removing */}
+      <dialog ref={dialogRef} className={`dialog-overlay ${isOpen ? "flex" : "hidden"}`} onClick={closeModal}>
+        <div className="dialog-content" onClick={(e) => e.stopPropagation()}>
+          <button className="close-button" onClick={closeModal}>
+            ✖
+          </button>
+          <h2 className="text-2xl font-bold mb-4">{title}</h2>
+          <p className="text-gray-700 dark:text-gray-300">{description}</p>
+        </div>
+      </dialog>
     </>
   );
 }
