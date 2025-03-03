@@ -23,47 +23,41 @@ body {
   color: #e5e5e5;
 }
 
-/* 🔹 Modal Overlay (Covers the Full Screen) */
-.dialog-overlay {
-  display: flex;
-  position: fixed;
-  inset: 0;
-  align-items: center;
-  justify-content: center;
-  background: rgba(0, 0, 0, 0.6); /* Dark backdrop */
+/* 🔹 Fullscreen Flexbox Centering (Ensures Natural Centering) */
+dialog {
+  display: flex; /* Enables flexbox */
+  align-items: center; /* Centers vertically */
+  justify-content: center; /* Centers horizontally */
+  height: 100vh; /* Fullscreen height */
+  width: 100vw; /* Fullscreen width */
+  background: transparent; /* No unwanted white background */
   border: none;
   padding: 0;
 }
 
-/* 🔹 Centering the Modal Properly */
-dialog::backdrop {
-  background: rgba(0, 0, 0, 0.6);
-}
-
-/* 🔹 Large Pop-up Content */
+/* 🔹 Fixed Width & Scrollable Height */
 .dialog-content {
-  display: flex;
-  flex-direction: column;
   background: white;
-  width: 85%;
-  max-width: 700px;
-  height: auto;
+  width: 600px; /* Fixed width */
+  max-width: 90%; /* Responsive on small screens */
+  max-height: 80vh; /* Limits height so it doesn't exceed the viewport */
   padding: 2rem;
   border-radius: 12px;
   box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.3);
-  overflow-y: auto;
-  position: relative;
+  overflow-y: auto; /* Enables vertical scrolling when content overflows */
+  word-wrap: break-word; /* Ensures long words wrap correctly */
 }
 
-/* 🔹 Force Centering for <dialog> (Prevents Sticking to the Corner) */
-dialog[open] {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
+/* 🔹 Ensure Text Doesn't Overflow Horizontally */
+.dialog-content p {
+  white-space: normal; /* Allows text wrapping */
+  word-break: break-word; /* Breaks long words if necessary */
+}
+
+/* 🔹 Dark Mode Styling */
+.dark .dialog-content {
+  background: #2a2a2a;
+  color: #e5e5e5;
 }
 
 /* Close Button */
@@ -75,13 +69,7 @@ dialog[open] {
   cursor: pointer;
 }
 
-/* Dark Mode for Modal */
-.dark .dialog-content {
-  background: #2a2a2a;
-  color: #e5e5e5;
-}
-
-/* Dark Mode Backdrop */
-.dark .dialog-overlay {
-  background: rgba(0, 0, 0, 0.8);
+/* 🔹 Backdrop (Dim Background) */
+dialog::backdrop {
+  background: rgba(0, 0, 0, 0.6);
 }
