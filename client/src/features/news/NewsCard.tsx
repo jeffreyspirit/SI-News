@@ -1,4 +1,4 @@
-import { useRef, useEffect } from "react";
+import { useRef, useEffect, useState } from "react";
 import { NewsArticle } from "./schema";
 import emptyImage from "@/assets/empty.jpg";
 
@@ -19,19 +19,22 @@ function NewsCard({ article }: NewsCardProps) {
     link,
   } = article;
 
-  // Reference for the dialog modal
+  // Modal control state
+  const [isOpen, setIsOpen] = useState(false);
   const dialogRef = useRef<HTMLDialogElement>(null);
 
-  // Function to open the modal
+  // Open modal & store the correct data
   const openModal = () => {
     if (dialogRef.current) {
-      dialogRef.current.showModal(); // Ensures proper modal opening behavior
+      setIsOpen(true);
+      dialogRef.current.showModal();
     }
   };
 
-  // Function to close the modal
+  // Close modal function
   const closeModal = () => {
     if (dialogRef.current) {
+      setIsOpen(false);
       dialogRef.current.close();
     }
   };
@@ -39,20 +42,13 @@ function NewsCard({ article }: NewsCardProps) {
   // Close modal when clicking outside
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
-      if (
-        dialogRef.current &&
-        event.target instanceof Node &&
-        !dialogRef.current.contains(event.target)
-      ) {
-        dialogRef.current.close();
+      if (dialogRef.current && event.target instanceof Node && !dialogRef.current.contains(event.target)) {
+        closeModal();
       }
     };
 
     document.addEventListener("click", handleClickOutside);
-
-    return () => {
-      document.removeEventListener("click", handleClickOutside);
-    };
+    return () => document.removeEventListener("click", handleClickOutside);
   }, []);
 
   return (
@@ -91,11 +87,11 @@ function NewsCard({ article }: NewsCardProps) {
           {description.slice(0, 60)}...
         </p>
 
-        {/* New "Read More" Button (Opens Modal) */}
+        {/* Read More Button (Opens Modal) */}
         <button
           className="mt-2 px-3 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition"
           onClick={(e) => {
-            e.stopPropagation(); // Prevent triggering outside clicks
+            e.stopPropagation();
             openModal();
           }}
         >
@@ -134,22 +130,26 @@ function NewsCard({ article }: NewsCardProps) {
       </div>
 
       {/* Modal Popup for Full Description */}
-      <dialog
-        ref={dialogRef}
-        className="p-5 bg-white dark:bg-gray-900 rounded-lg shadow-lg max-w-md w-full"
-        onClick={(e) => e.stopPropagation()} // Prevent outside clicks from closing instantly
-      >
-        <h2 className="text-lg font-bold mb-3 text-gray-900 dark:text-white">
-          {title}
-        </h2>
-        <p className="text-gray-700 dark:text-gray-300">{description}</p>
-        <button
-          className="mt-3 px-4 py-2 bg-gray-300 dark:bg-gray-700 rounded hover:bg-gray-400 dark:hover:bg-gray-600"
-          onClick={closeModal}
+      {isOpen && (
+        <dialog
+          ref={dialogRef}
+          className="fixed inset-0 flex items-center justify-center p-5 bg-black bg-opacity-50"
+          onClick={(e) => e.stopPropagation()} // Prevent outside clicks from closing instantly
         >
-          Close
-        </button>
-      </dialog>
+          <div className="bg-white dark:bg-gray-900 p-6 rounded-lg shadow-lg w-full max-w-2xl max-h-[80vh] overflow-y-auto">
+            <h2 className="text-xl font-bold mb-3 text-gray-900 dark:text-white">
+              {title}
+            </h2>
+            <p className="text-gray-700 dark:text-gray-300">{description}</p>
+            <button
+              className="mt-4 px-4 py-2 bg-gray-300 dark:bg-gray-700 rounded hover:bg-gray-400 dark:hover:bg-gray-600"
+              onClick={closeModal}
+            >
+              Close
+            </button>
+          </div>
+        </dialog>
+      )}
     </div>
   );
 }
