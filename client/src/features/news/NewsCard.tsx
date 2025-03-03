@@ -1,4 +1,4 @@
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import { NewsArticle } from "./schema";
 import emptyImage from "@/assets/empty.jpg";
 
@@ -19,12 +19,14 @@ function NewsCard({ article }: NewsCardProps) {
     link,
   } = article;
 
-  // Reference for the dialog modal
+  // State to track modal visibility
+  const [isOpen, setIsOpen] = useState(false);
   const dialogRef = useRef<HTMLDialogElement>(null);
 
   // Function to open the modal
   const openModal = (e: React.MouseEvent) => {
-    e.stopPropagation(); // Prevent interference from outside click handlers
+    e.stopPropagation();
+    setIsOpen(true);
     if (dialogRef.current) {
       dialogRef.current.showModal();
     }
@@ -32,6 +34,7 @@ function NewsCard({ article }: NewsCardProps) {
 
   // Function to close the modal
   const closeModal = () => {
+    setIsOpen(false);
     if (dialogRef.current) {
       dialogRef.current.close();
     }
@@ -114,9 +117,9 @@ function NewsCard({ article }: NewsCardProps) {
         </div>
       </div>
 
-      {/* Large Pop-up Modal  */}
-      <dialog ref={dialogRef} className="dialog-overlay">
-        <div className="dialog-content">
+      {/* Large Pop-up Modal */}
+      <dialog ref={dialogRef} className={`dialog-overlay ${isOpen ? "flex" : "hidden"}`} onClick={closeModal}>
+        <div className="dialog-content" onClick={(e) => e.stopPropagation()}>
           <button className="close-button" onClick={closeModal}>
             ✖
           </button>
