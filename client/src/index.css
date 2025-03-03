@@ -23,55 +23,48 @@ body {
   color: #e5e5e5;
 }
 
-/* Ensure dialog is properly displayed & centered */
-dialog {
-  display: flex !important;  /* Ensures it's rendered */
+/* Fullscreen Flexbox Centering */
+.dialog-overlay {
+  display: flex !important;
   position: fixed;
-  inset: 0; /* Covers entire viewport */
+  inset: 0;
   align-items: center;
   justify-content: center;
-  background: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
+  background: rgba(0, 0, 0, 0.6);
   border: none;
   padding: 0;
 }
 
-/* Modal Content */
-dialog > div {
+/* Large Pop-up Content */
+.dialog-content {
   display: flex;
   flex-direction: column;
   background: white;
-  width: 80%; /* Large width */
-  max-width: 900px; /* Ensures it doesn’t get too big */
-  height: 80vh; /* Large height */
-  max-height: 90vh;
+  width: 85%;
+  max-width: 700px;
+  height: auto;
   padding: 2rem;
   border-radius: 12px;
   box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.3);
-  overflow-y: auto; /* Enables scrolling for long content */
+  overflow-y: auto;
+}
+
+/* Close Button */
+.close-button {
+  align-self: flex-end;
+  background: transparent;
+  border: none;
+  font-size: 1.5rem;
+  cursor: pointer;
 }
 
 /* Dark Mode for Modal */
-.dark dialog > div {
+.dark .dialog-content {
   background: #2a2a2a;
   color: #e5e5e5;
 }
 
 /* Dark Mode Backdrop */
-.dark dialog::backdrop {
+.dark .dialog-overlay {
   background: rgba(0, 0, 0, 0.8);
-}
-
-/* Close Button */
-dialog button {
-  align-self: flex-end; /* Align close button to the top-right */
-  background: #333;
-  color: white;
-  padding: 8px 16px;
-  border-radius: 6px;
-  cursor: pointer;
-  margin-bottom: 1rem;
-}
-
-dialog button:hover {
-  background: #444;
 }
