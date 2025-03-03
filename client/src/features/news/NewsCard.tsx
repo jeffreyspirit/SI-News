@@ -1,4 +1,4 @@
-import { useRef, useEffect } from "react";
+import { useRef, useEffect, useState } from "react";
 import { NewsArticle } from "./schema";
 import emptyImage from "@/assets/empty.jpg";
 
@@ -19,28 +19,45 @@ function NewsCard({ article }: NewsCardProps) {
     link,
   } = article;
 
-  // Reference for the dialog modal
+  // State to track modal visibility
+  const [isOpen, setIsOpen] = useState(false);
   const dialogRef = useRef<HTMLDialogElement>(null);
 
   // Function to open the modal
   const openModal = () => {
-    console.log("Opening modal for:", title);
-    console.log("Dialog Ref:", dialogRef.current);
-
     if (dialogRef.current) {
+      setIsOpen(true);
       dialogRef.current.showModal();
-      console.log("Modal should now be visible!");
-    } else {
-      console.error("Dialog reference is null. React might not be rendering it.");
     }
   };
 
   // Function to close the modal
   const closeModal = () => {
     if (dialogRef.current) {
+      setIsOpen(false);
       dialogRef.current.close();
     }
   };
+
+  // Close modal when clicking outside (but only when open)
+  useEffect(() => {
+    if (!isOpen) return;
+
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        dialogRef.current &&
+        !dialogRef.current.contains(event.target as Node)
+      ) {
+        closeModal();
+      }
+    };
+
+    document.addEventListener("click", handleClickOutside);
+
+    return () => {
+      document.removeEventListener("click", handleClickOutside);
+    };
+  }, [isOpen]);
 
   return (
     <>
@@ -123,23 +140,26 @@ function NewsCard({ article }: NewsCardProps) {
       </div>
 
       {/* Modal Popup for Full Description */}
-      <dialog
-        ref={dialogRef}
-        className="fixed inset-0 flex items-center justify-center p-5 bg-black bg-opacity-50"
-      >
-        <div className="bg-white dark:bg-gray-900 p-6 rounded-lg shadow-lg w-full max-w-2xl max-h-[80vh] overflow-y-auto">
-          <h2 className="text-xl font-bold mb-3 text-gray-900 dark:text-white">
-            {title}
-          </h2>
-          <p className="text-gray-700 dark:text-gray-300">{description}</p>
-          <button
-            className="mt-4 px-4 py-2 bg-gray-300 dark:bg-gray-700 rounded hover:bg-gray-400 dark:hover:bg-gray-600"
-            onClick={closeModal}
-          >
-            Close
-          </button>
-        </div>
-      </dialog>
+      {isOpen && (
+        <dialog
+          ref={dialogRef}
+          className="fixed inset-0 flex items-center justify-center p-5 bg-black bg-opacity-50"
+          onClick={(e) => e.stopPropagation()} // Prevent outside clicks from closing instantly
+        >
+          <div className="bg-white dark:bg-gray-900 p-6 rounded-lg shadow-lg w-full max-w-2xl max-h-[80vh] overflow-y-auto">
+            <h2 className="text-xl font-bold mb-3 text-gray-900 dark:text-white">
+              {title}
+            </h2>
+            <p className="text-gray-700 dark:text-gray-300">{description}</p>
+            <button
+              className="mt-4 px-4 py-2 bg-gray-300 dark:bg-gray-700 rounded hover:bg-gray-400 dark:hover:bg-gray-600"
+              onClick={closeModal}
+            >
+              Close
+            </button>
+          </div>
+        </dialog>
+      )}
     </>
   );
 }
