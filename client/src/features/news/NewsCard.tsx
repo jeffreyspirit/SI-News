@@ -25,7 +25,7 @@ function NewsCard({ article }: NewsCardProps) {
   // Function to open the modal
   const openModal = () => {
     if (dialogRef.current) {
-      dialogRef.current.show();
+      dialogRef.current.showModal(); // Ensures proper modal opening behavior
     }
   };
 
@@ -39,13 +39,20 @@ function NewsCard({ article }: NewsCardProps) {
   // Close modal when clicking outside
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
-      if (dialogRef.current && !dialogRef.current.contains(event.target as Node)) {
+      if (
+        dialogRef.current &&
+        event.target instanceof Node &&
+        !dialogRef.current.contains(event.target)
+      ) {
         dialogRef.current.close();
       }
     };
 
-    window.addEventListener("click", handleClickOutside);
-    return () => window.removeEventListener("click", handleClickOutside);
+    document.addEventListener("click", handleClickOutside);
+
+    return () => {
+      document.removeEventListener("click", handleClickOutside);
+    };
   }, []);
 
   return (
@@ -84,10 +91,13 @@ function NewsCard({ article }: NewsCardProps) {
           {description.slice(0, 60)}...
         </p>
 
-        {/* Read More Button (Opens Modal) */}
+        {/* New "Read More" Button (Opens Modal) */}
         <button
-          className="text-blue-600 dark:text-blue-400 hover:underline text-xs"
-          onClick={openModal}
+          className="mt-2 px-3 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition"
+          onClick={(e) => {
+            e.stopPropagation(); // Prevent triggering outside clicks
+            openModal();
+          }}
         >
           Read More
         </button>
@@ -127,6 +137,7 @@ function NewsCard({ article }: NewsCardProps) {
       <dialog
         ref={dialogRef}
         className="p-5 bg-white dark:bg-gray-900 rounded-lg shadow-lg max-w-md w-full"
+        onClick={(e) => e.stopPropagation()} // Prevent outside clicks from closing instantly
       >
         <h2 className="text-lg font-bold mb-3 text-gray-900 dark:text-white">
           {title}
