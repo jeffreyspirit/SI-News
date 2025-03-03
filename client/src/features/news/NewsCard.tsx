@@ -1,4 +1,4 @@
-import { useRef, useEffect, useState } from "react";
+import { useRef, useEffect } from "react";
 import { NewsArticle } from "./schema";
 import emptyImage from "@/assets/empty.jpg";
 
@@ -19,37 +19,25 @@ function NewsCard({ article }: NewsCardProps) {
     link,
   } = article;
 
-  // Modal control state
-  const [isOpen, setIsOpen] = useState(false);
+  // Reference for the dialog modal
   const dialogRef = useRef<HTMLDialogElement>(null);
 
-  // Open modal & store the correct data
+  // Function to open the modal
   const openModal = () => {
     if (dialogRef.current) {
-      setIsOpen(true);
-      dialogRef.current.showModal();
+      console.log("Opening modal:", title); // Debugging log
+      dialogRef.current.showModal(); // Ensure the modal opens
+    } else {
+      console.error("Dialog reference is null. Modal failed to open.");
     }
   };
 
-  // Close modal function
+  // Function to close the modal
   const closeModal = () => {
     if (dialogRef.current) {
-      setIsOpen(false);
       dialogRef.current.close();
     }
   };
-
-  // Close modal when clicking outside
-  useEffect(() => {
-    const handleClickOutside = (event: MouseEvent) => {
-      if (dialogRef.current && event.target instanceof Node && !dialogRef.current.contains(event.target)) {
-        closeModal();
-      }
-    };
-
-    document.addEventListener("click", handleClickOutside);
-    return () => document.removeEventListener("click", handleClickOutside);
-  }, []);
 
   return (
     <div className="bg-white dark:bg-gray-800 shadow-md rounded-lg overflow-hidden border border-gray-300 dark:border-gray-700 transition-transform hover:scale-105 hover:shadow-lg p-3">
@@ -130,26 +118,23 @@ function NewsCard({ article }: NewsCardProps) {
       </div>
 
       {/* Modal Popup for Full Description */}
-      {isOpen && (
-        <dialog
-          ref={dialogRef}
-          className="fixed inset-0 flex items-center justify-center p-5 bg-black bg-opacity-50"
-          onClick={(e) => e.stopPropagation()} // Prevent outside clicks from closing instantly
-        >
-          <div className="bg-white dark:bg-gray-900 p-6 rounded-lg shadow-lg w-full max-w-2xl max-h-[80vh] overflow-y-auto">
-            <h2 className="text-xl font-bold mb-3 text-gray-900 dark:text-white">
-              {title}
-            </h2>
-            <p className="text-gray-700 dark:text-gray-300">{description}</p>
-            <button
-              className="mt-4 px-4 py-2 bg-gray-300 dark:bg-gray-700 rounded hover:bg-gray-400 dark:hover:bg-gray-600"
-              onClick={closeModal}
-            >
-              Close
-            </button>
-          </div>
-        </dialog>
-      )}
+      <dialog
+        ref={dialogRef}
+        className="fixed inset-0 flex items-center justify-center p-5 bg-black bg-opacity-50 w-full max-w-2xl rounded-lg shadow-lg"
+      >
+        <div className="bg-white dark:bg-gray-900 p-6 rounded-lg shadow-lg w-full max-w-2xl max-h-[80vh] overflow-y-auto">
+          <h2 className="text-xl font-bold mb-3 text-gray-900 dark:text-white">
+            {title}
+          </h2>
+          <p className="text-gray-700 dark:text-gray-300">{description}</p>
+          <button
+            className="mt-4 px-4 py-2 bg-gray-300 dark:bg-gray-700 rounded hover:bg-gray-400 dark:hover:bg-gray-600"
+            onClick={closeModal}
+          >
+            Close
+          </button>
+        </div>
+      </dialog>
     </div>
   );
 }
