@@ -23,7 +23,8 @@ function NewsSearchBar({ initValue, handleFilter }: NewsSearchBarProps) {
   }, [initValue]);
 
   return (
-    <form className="flex flex-col sm:flex-row justify-center gap-3 mb-6">
+    <form className="flex flex-col sm:flex-row flex-wrap justify-center gap-4 p-4 bg-white dark:bg-gray-800 shadow-md rounded-lg">
+      {/* 🔹 Search Input */}
       <input
         type="text"
         placeholder="Search news..."
@@ -31,38 +32,46 @@ function NewsSearchBar({ initValue, handleFilter }: NewsSearchBarProps) {
         {...register("searchQuery")}
       />
 
+      {/* 🔹 Category Filter */}
       <select
         className="p-2 border rounded-lg shadow-sm focus:ring-2 focus:ring-blue-400 outline-none w-full sm:w-1/6"
         {...register("selectedCategory")}
       >
-        <option value="">All Category</option>
+        <option value="">All Categories</option>
         <option value="Important">Important</option>
         <option value="General">General</option>
         <option value="Invitation">Invitation</option>
         <option value="Recruitment">Recruitment</option>
       </select>
 
+      {/* 🔹 Status Filter (Active/Inactive) */}
       <select
         className="p-2 border rounded-lg shadow-sm focus:ring-2 focus:ring-blue-400 outline-none w-full sm:w-1/6"
         {...register("selectedStatus")}
       >
-        <option value="">All Status</option>
-        <option value="Active">Active</option>
+        <option value="Active">Active (Default)</option>
         <option value="Inactive">Inactive</option>
+        <option value="">All Status</option>
       </select>
 
-      <select
-        className="p-2 border rounded-lg shadow-sm focus:ring-2 focus:ring-blue-400 outline-none w-full sm:w-1/6"
-        {...register("selectedYear")}
-      >
-        <option value="">All Years</option>
-        <option value="Year 1">Year 1</option>
-        <option value="Year 2">Year 2</option>
-        <option value="Year 3">Year 3</option>
-        <option value="Year 4">Year 4</option>
-        <option value="Year 5">Year 5</option>
-        <option value="Year 6">Year 6</option>
-      </select>
+      {/* 🔹 Multi-Select for Years (Properly Styled) */}
+      <div className="relative w-full sm:w-1/6">
+        <select
+          multiple
+          {...register("selectedYears")}
+          className="p-2 border rounded-lg shadow-sm focus:ring-2 focus:ring-blue-400 outline-none w-full h-32"
+        >
+          <option value="1">Year 1</option>
+          <option value="2">Year 2</option>
+          <option value="3">Year 3</option>
+          <option value="4">Year 4</option>
+          <option value="5">Year 5</option>
+          <option value="6">Year 6</option>
+        </select>
+        <p className="text-xs text-gray-500 mt-1">
+          Hold **Ctrl (Cmd on Mac)** to select multiple years.
+        </p>
+      </div>
     </form>
   );
 }
