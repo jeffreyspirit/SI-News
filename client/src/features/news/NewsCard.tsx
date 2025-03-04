@@ -19,18 +19,15 @@ function NewsCard({ article }: NewsCardProps) {
     link,
   } = article;
 
-  // State to track modal visibility
   const [isOpen, setIsOpen] = useState(false);
   const dialogRef = useRef<HTMLDialogElement>(null);
 
-  // Ensure the modal is closed when the page loads
   useEffect(() => {
     if (dialogRef.current) {
       dialogRef.current.close();
     }
   }, []);
 
-  // Function to open the modal
   const openModal = (e: React.MouseEvent) => {
     e.stopPropagation();
     setIsOpen(true);
@@ -39,7 +36,6 @@ function NewsCard({ article }: NewsCardProps) {
     }
   };
 
-  // Function to close the modal
   const closeModal = () => {
     setIsOpen(false);
     if (dialogRef.current) {
@@ -49,7 +45,7 @@ function NewsCard({ article }: NewsCardProps) {
 
   return (
     <>
-      <div className="bg-white dark:bg-gray-800 shadow-md rounded-lg overflow-hidden border border-gray-300 dark:border-gray-700 transition-transform hover:scale-105 hover:shadow-lg p-3">
+      <div className="bg-white dark:bg-gray-800 shadow-md rounded-lg border border-gray-300 dark:border-gray-700 transition-transform hover:scale-105 hover:shadow-lg p-4 flex flex-col h-full">
         {/* Display first image (or default placeholder if none) */}
         <img
           src={photos.length > 0 ? photos[0] : emptyImage}
@@ -57,13 +53,13 @@ function NewsCard({ article }: NewsCardProps) {
           className="w-full h-40 object-cover rounded"
         />
 
-        <div className="p-3">
+        <div className="p-3 flex flex-col flex-grow">
           {/* Title */}
           <h2 className="text-lg font-semibold text-gray-900 dark:text-white line-clamp-2">
             {title}
           </h2>
 
-          {/* Status & Type Tags */}
+          {/* Status & Category Tags */}
           <div className="flex gap-2 mt-2">
             <span
               className={`px-2 py-1 text-xs font-semibold rounded-full ${
@@ -80,8 +76,8 @@ function NewsCard({ article }: NewsCardProps) {
           </div>
 
           {/* Shortened Description */}
-          <p className="text-gray-600 dark:text-gray-300 mt-2 text-sm">
-            {description.slice(0, 60)}...
+          <p className="text-gray-600 dark:text-gray-300 mt-2 text-sm flex-grow">
+            {description.slice(0, 100)}...
           </p>
 
           {/* Read More Button (Opens Modal) */}
@@ -99,7 +95,7 @@ function NewsCard({ article }: NewsCardProps) {
                 key={year}
                 className="px-2 py-1 text-xs font-semibold rounded-full bg-purple-100 text-purple-600 dark:bg-purple-900 dark:text-purple-300"
               >
-                {year}
+                Year {year}
               </span>
             ))}
           </div>
@@ -107,7 +103,7 @@ function NewsCard({ article }: NewsCardProps) {
           {/* Dates */}
           <p className="text-xs text-gray-500 dark:text-gray-400 mt-3">
             📅 <strong>Published:</strong> {publishedDate} <br />⏳{" "}
-            <strong>Ends:</strong> {endDate}
+            <strong>Ends:</strong> {endDate || "Ongoing"}
           </p>
 
           {/* Link Button (Only if Available) */}
@@ -126,22 +122,15 @@ function NewsCard({ article }: NewsCardProps) {
 
       {/* 🔹 Render Dialog Only When `isOpen === true` */}
       {isOpen && (
-        <dialog
-          ref={dialogRef}
-          className="dialog-overlay"
-          onClick={closeModal}
-        >
+        <dialog ref={dialogRef} className="dialog-overlay" onClick={closeModal}>
           <div className="dialog-content" onClick={(e) => e.stopPropagation()}>
             <button className="close-button" onClick={closeModal}>
               ✖
             </button>
             <h2 className="text-2xl font-bold mb-4">{title}</h2>
-            {/* ✅ Render description with <br/> for new lines */}
             <p
               className="text-gray-700 dark:text-gray-300"
-              dangerouslySetInnerHTML={{
-                __html: description.replace(/\n/g, "<br/>"),
-              }}
+              dangerouslySetInnerHTML={{ __html: description.replace(/\n/g, "<br/>") }}
             ></p>
           </div>
         </dialog>
