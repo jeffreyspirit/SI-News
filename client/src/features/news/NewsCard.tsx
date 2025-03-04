@@ -30,7 +30,7 @@ function NewsCard({ article }: NewsCardProps) {
     }
   }, []);
 
-  // Function to open the modal and force center
+  // Function to open the modal
   const openModal = (e: React.MouseEvent) => {
     e.stopPropagation();
     setIsOpen(true);
@@ -136,7 +136,13 @@ function NewsCard({ article }: NewsCardProps) {
               ✖
             </button>
             <h2 className="text-2xl font-bold mb-4">{title}</h2>
-            <p className="text-gray-700 dark:text-gray-300">{description}</p>
+            {/* ✅ Render description with <br/> for new lines */}
+            <p
+              className="text-gray-700 dark:text-gray-300"
+              dangerouslySetInnerHTML={{
+                __html: description.replace(/\n/g, "<br/>"),
+              }}
+            ></p>
           </div>
         </dialog>
       )}
