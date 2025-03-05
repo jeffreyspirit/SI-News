@@ -9,12 +9,21 @@ type NewsSearchBarProps = {
 };
 
 function NewsSearchBar({ initValue, handleFilter }: NewsSearchBarProps) {
-  const { register, watch, reset } = useForm<NewsFilter>({
+  const { register, watch, reset, setValue } = useForm<NewsFilter>({
     resolver: valibotResolver(newsFilterSchema),
   });
 
   useEffect(() => {
-    const { unsubscribe } = watch((value) => handleFilter(value));
+    const { unsubscribe } = watch((value) => {
+      // ✅ Convert selected years from string to an array of numbers
+      const yearsArray = value.selectedYears
+        ? (Array.isArray(value.selectedYears) ? value.selectedYears : [value.selectedYears])
+            .map((year) => Number(year)) // Convert strings to numbers
+        : [];
+
+      handleFilter({ ...value, selectedYears: yearsArray });
+    });
+
     return () => unsubscribe();
   }, [watch]);
 
@@ -24,7 +33,6 @@ function NewsSearchBar({ initValue, handleFilter }: NewsSearchBarProps) {
 
   return (
     <form className="flex flex-col sm:flex-row flex-wrap justify-center gap-4 p-4 bg-white dark:bg-gray-800 shadow-md rounded-lg">
-      {/* 🔹 Search Input */}
       <input
         type="text"
         placeholder="Search news..."
@@ -32,11 +40,7 @@ function NewsSearchBar({ initValue, handleFilter }: NewsSearchBarProps) {
         {...register("searchQuery")}
       />
 
-      {/* 🔹 Category Filter */}
-      <select
-        className="p-2 border rounded-lg shadow-sm focus:ring-2 focus:ring-blue-400 outline-none w-full sm:w-1/6"
-        {...register("selectedCategory")}
-      >
+      <select className="p-2 border rounded-lg w-full sm:w-1/6" {...register("selectedCategory")}>
         <option value="">All Categories</option>
         <option value="Important">Important</option>
         <option value="General">General</option>
@@ -44,22 +48,22 @@ function NewsSearchBar({ initValue, handleFilter }: NewsSearchBarProps) {
         <option value="Recruitment">Recruitment</option>
       </select>
 
-      {/* 🔹 Status Filter (Active/Inactive) */}
-      <select
-        className="p-2 border rounded-lg shadow-sm focus:ring-2 focus:ring-blue-400 outline-none w-full sm:w-1/6"
-        {...register("selectedStatus")}
-      >
+      <select className="p-2 border rounded-lg w-full sm:w-1/6" {...register("selectedStatus")}>
         <option value="Active">Active (Default)</option>
         <option value="Inactive">Inactive</option>
         <option value="">All Status</option>
       </select>
 
-      {/* 🔹 Multi-Select for Years (Properly Styled) */}
+      {/* 🔹 Multi-Select Year Fix */}
       <div className="relative w-full sm:w-1/6">
         <select
           multiple
           {...register("selectedYears")}
-          className="p-2 border rounded-lg shadow-sm focus:ring-2 focus:ring-blue-400 outline-none w-full h-32"
+          className="p-2 border rounded-lg w-full h-32"
+          onChange={(e) => {
+            const values = Array.from(e.target.selectedOptions, (option) => Number(option.value));
+            setValue("selectedYears", values);
+          }}
         >
           <option value="1">Year 1</option>
           <option value="2">Year 2</option>
@@ -68,9 +72,7 @@ function NewsSearchBar({ initValue, handleFilter }: NewsSearchBarProps) {
           <option value="5">Year 5</option>
           <option value="6">Year 6</option>
         </select>
-        <p className="text-xs text-gray-500 mt-1">
-          Hold **Ctrl (Cmd on Mac)** to select multiple years.
-        </p>
+        <p className="text-xs text-gray-500 mt-1">Hold **Ctrl (Cmd on Mac)** to select multiple years.</p>
       </div>
     </form>
   );
