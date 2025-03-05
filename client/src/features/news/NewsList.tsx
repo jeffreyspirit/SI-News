@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { NewsArticle, NewsFilter, defaultNewsFilter } from "./schema";
+import { NewsArticle, NewsFilter } from "./schema";
 import NewsSearchBar from "./NewsSearchBar";
 import NewsCard from "./NewsCard";
 
@@ -25,7 +25,7 @@ function NewsList({ news }: NewsListProps) {
         (!searchQuery || title.toLowerCase().includes(searchQuery.toLowerCase())) &&
         (!selectedCategory || category === selectedCategory) &&
         (!selectedStatus || status === selectedStatus) &&
-        (!selectedYears.length || selectedYears.some((year) => years.includes(year)))
+        (!selectedYears.length || selectedYears.some((year: string) => years.includes(year)))
       );
     })
     .sort((a, b) => new Date(b.publishedDate).getTime() - new Date(a.publishedDate).getTime()); // ✅ Sort by newest first
