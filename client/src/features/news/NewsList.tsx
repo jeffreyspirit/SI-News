@@ -10,22 +10,25 @@ type NewsListProps = {
 function NewsList({ news }: NewsListProps) {
   if (!news) return <p className="text-center text-gray-500">No news found.</p>;
 
-  // 🔹 State for filtering
-  const [showOnlyActive, setShowOnlyActive] = useState(true);
+  // ✅ State for filters
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("");
   const [selectedStatus, setSelectedStatus] = useState("Active"); // Default to Active
-  const [selectedYears, setSelectedYears] = useState<string[]>([]);
+  const [selectedYears, setSelectedYears] = useState<number[]>([]);
+  const [showOnlyActive, setShowOnlyActive] = useState(true); // Control Active/Inactive filter
 
-  // 🔹 Handle filter changes from NewsSearchBar
+  // ✅ Handle filters from `NewsSearchBar.tsx`
   const handleFilter = (data: Partial<NewsArticle>) => {
     setSearchQuery(data.searchQuery || "");
     setSelectedCategory(data.selectedCategory || "");
     setSelectedStatus(data.selectedStatus || "Active");
-    setSelectedYears(data.selectedYears || []);
+    setSelectedYears(data.selectedYears ? data.selectedYears.map(Number) : []);
   };
 
-  // 🔹 Apply filters
+  // ✅ Debugging: Check if selectedYears contains correct values
+  console.log("Selected Years: ", selectedYears);
+
+  // ✅ Apply filtering
   const filteredNews = news.filter((article) => {
     const matchesSearch =
       searchQuery === "" ||
@@ -37,21 +40,22 @@ function NewsList({ news }: NewsListProps) {
     const matchesStatus =
       selectedStatus === "" || article.status === selectedStatus;
 
+    // ✅ Multi-Select Year Filtering (Checkbox OR Logic)
     const matchesYear =
       selectedYears.length === 0 ||
-      selectedYears.some((year) => article.years.includes(Number(year)));
+      article.years.some((year) => selectedYears.includes(year));
 
     return matchesSearch && matchesCategory && matchesStatus && matchesYear;
   });
 
-  // 🔹 Sort articles by publishedDate (latest first)
+  // ✅ Sort by publishedDate (latest first)
   const sortedNews = [...filteredNews].sort(
     (a, b) => new Date(b.publishedDate).getTime() - new Date(a.publishedDate).getTime()
   );
 
   return (
     <div className="container mx-auto p-4">
-      {/* 🔹 Search & Filter Bar */}
+      {/* ✅ Search and Filter Bar */}
       <NewsSearchBar
         initValue={{
           searchQuery,
@@ -62,7 +66,7 @@ function NewsList({ news }: NewsListProps) {
         handleFilter={handleFilter}
       />
 
-      {/* 🔹 Toggle Active/Inactive */}
+      {/* ✅ Toggle Active/Inactive */}
       <div className="flex justify-end mb-4">
         <button
           className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition"
@@ -72,8 +76,8 @@ function NewsList({ news }: NewsListProps) {
         </button>
       </div>
 
-      {/* 🔹 Render Filtered & Sorted News */}
-      <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-3 gap-4">
+      {/* ✅ Render Filtered & Sorted News */}
+      <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-3 gap-6">
         {sortedNews.length > 0 ? (
           sortedNews.map((article) => (
             <NewsCard key={article.id} article={article} />
