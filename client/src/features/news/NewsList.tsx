@@ -8,21 +8,27 @@ type NewsListProps = {
 };
 
 function NewsList({ news }: NewsListProps) {
-  // ✅ State to manage filters
-  const [newsFilter, setNewsFilter] = useState<Partial<NewsFilter>>(defaultNewsFilter);
+  // ✅ Ensure `newsFilter` is always defined
+  const [newsFilter, setNewsFilter] = useState<NewsFilter>({
+    searchQuery: "",
+    selectedCategory: "",
+    selectedStatus: "Active",
+    selectedYears: [],
+  });
+
   const { searchQuery, selectedCategory, selectedStatus, selectedYears } = newsFilter;
 
-  // ✅ Filter news based on search, category, status, and year
+  // ✅ Filter news based on search, category, status, and years
   const filteredNews = news
     ?.filter(({ title, category, status, years }) => {
       return (
         (!searchQuery || title.toLowerCase().includes(searchQuery.toLowerCase())) &&
         (!selectedCategory || category === selectedCategory) &&
         (!selectedStatus || status === selectedStatus) &&
-        (!selectedYears || selectedYears.length === 0 || selectedYears.some((year) => years.includes(year)))
+        (!selectedYears.length || selectedYears.some((year) => years.includes(year)))
       );
     })
-    .sort((a, b) => new Date(b.publishedDate).getTime() - new Date(a.publishedDate).getTime()); // ✅ Sort newest first
+    .sort((a, b) => new Date(b.publishedDate).getTime() - new Date(a.publishedDate).getTime()); // ✅ Sort by newest first
 
   return (
     <div className="container mx-auto p-4">
