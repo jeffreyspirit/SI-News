@@ -8,6 +8,8 @@ type NewsSearchBarProps = {
   handleFilter: (data: Partial<NewsFilter>) => void;
 };
 
+const availableYears = [1, 2, 3, 4, 5, 6]; // Define available years
+
 function NewsSearchBar({ initValue, handleFilter }: NewsSearchBarProps) {
   const { register, watch, reset, setValue } = useForm<NewsFilter>({
     resolver: valibotResolver(newsFilterSchema),
@@ -15,13 +17,12 @@ function NewsSearchBar({ initValue, handleFilter }: NewsSearchBarProps) {
 
   useEffect(() => {
     const { unsubscribe } = watch((value) => {
-      // ✅ Convert selected years from string to an array of numbers
-      const yearsArray = value.selectedYears
-        ? (Array.isArray(value.selectedYears) ? value.selectedYears : [value.selectedYears])
-            .map((year) => Number(year)) // Convert strings to numbers
-        : [];
+      const selectedYears =
+        value.selectedYears && Array.isArray(value.selectedYears)
+          ? value.selectedYears.map(Number)
+          : [];
 
-      handleFilter({ ...value, selectedYears: yearsArray });
+      handleFilter({ ...value, selectedYears });
     });
 
     return () => unsubscribe();
@@ -33,6 +34,7 @@ function NewsSearchBar({ initValue, handleFilter }: NewsSearchBarProps) {
 
   return (
     <form className="flex flex-col sm:flex-row flex-wrap justify-center gap-4 p-4 bg-white dark:bg-gray-800 shadow-md rounded-lg">
+      {/* 🔹 Search Input */}
       <input
         type="text"
         placeholder="Search news..."
@@ -40,6 +42,7 @@ function NewsSearchBar({ initValue, handleFilter }: NewsSearchBarProps) {
         {...register("searchQuery")}
       />
 
+      {/* 🔹 Category Filter */}
       <select className="p-2 border rounded-lg w-full sm:w-1/6" {...register("selectedCategory")}>
         <option value="">All Categories</option>
         <option value="Important">Important</option>
@@ -48,31 +51,36 @@ function NewsSearchBar({ initValue, handleFilter }: NewsSearchBarProps) {
         <option value="Recruitment">Recruitment</option>
       </select>
 
+      {/* 🔹 Status Filter (Active/Inactive) */}
       <select className="p-2 border rounded-lg w-full sm:w-1/6" {...register("selectedStatus")}>
         <option value="Active">Active (Default)</option>
         <option value="Inactive">Inactive</option>
         <option value="">All Status</option>
       </select>
 
-      {/* 🔹 Multi-Select Year Fix */}
-      <div className="relative w-full sm:w-1/6">
-        <select
-          multiple
-          {...register("selectedYears")}
-          className="p-2 border rounded-lg w-full h-32"
-          onChange={(e) => {
-            const values = Array.from(e.target.selectedOptions, (option) => Number(option.value));
-            setValue("selectedYears", values);
-          }}
-        >
-          <option value="1">Year 1</option>
-          <option value="2">Year 2</option>
-          <option value="3">Year 3</option>
-          <option value="4">Year 4</option>
-          <option value="5">Year 5</option>
-          <option value="6">Year 6</option>
-        </select>
-        <p className="text-xs text-gray-500 mt-1">Hold **Ctrl (Cmd on Mac)** to select multiple years.</p>
+      {/* 🔹 Year Selection (Checkboxes) */}
+      <div className="flex flex-wrap gap-2 p-2 border rounded-lg shadow-sm">
+        {availableYears.map((year) => (
+          <label key={year} className="flex items-center space-x-2">
+            <input
+              type="checkbox"
+              value={year}
+              {...register("selectedYears")}
+              onChange={(e) => {
+                const checked = e.target.checked;
+                const value = Number(e.target.value);
+                setValue(
+                  "selectedYears",
+                  checked
+                    ? [...(initValue.selectedYears || []), value] // Add to selected
+                    : (initValue.selectedYears || []).filter((y) => y !== value) // Remove if unchecked
+                );
+              }}
+              className="form-checkbox h-5 w-5 text-blue-600"
+            />
+            <span className="text-gray-700 dark:text-gray-300">Year {year}</span>
+          </label>
+        ))}
       </div>
     </form>
   );
