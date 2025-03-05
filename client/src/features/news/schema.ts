@@ -1,10 +1,10 @@
 import * as v from "valibot";
 
 export const newsFilterSchema = v.object({
-  searchQuery: v.string(),
-  selectedCategory: v.string(),
-  selectedStatus: v.string(),
-  selectedYears: v.array(v.string()), // ✅ Now supports multiple years
+  searchQuery: v.string().default(""),
+  selectedCategory: v.string().default(""),
+  selectedStatus: v.string().default("Active"), // ✅ Default Active
+  selectedYears: v.array(v.string()).default([]), // ✅ Ensure it's always an array
 });
 
 export type NewsFilter = v.InferOutput<typeof newsFilterSchema>;
@@ -12,8 +12,8 @@ export type NewsFilter = v.InferOutput<typeof newsFilterSchema>;
 export const defaultNewsFilter: NewsFilter = {
   searchQuery: "",
   selectedCategory: "",
-  selectedStatus: "Active", // ✅ Default to Active
-  selectedYears: [], // ✅ Allow multiple years
+  selectedStatus: "Active",
+  selectedYears: [],
 };
 
 export type NewsArticle = {
