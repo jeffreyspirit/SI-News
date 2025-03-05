@@ -1,21 +1,25 @@
 import * as v from "valibot";
 
+// ✅ Update News Filter Schema to use `selectedYears` (array of strings)
 export const newsFilterSchema = v.object({
   searchQuery: v.string(),
   selectedCategory: v.string(),
   selectedStatus: v.string(),
-  selectedYear: v.string(),
+  selectedYears: v.array(v.string()), // ✅ Changed from single string to array of strings
 });
 
+// ✅ Updated Type for Filtering
 export type NewsFilter = v.InferOutput<typeof newsFilterSchema>;
 
-export const defaultNewsFilter = {
+// ✅ Updated Default Filter
+export const defaultNewsFilter: NewsFilter = {
   searchQuery: "",
   selectedCategory: "",
-  selectedStatus: "",
-  selectedYear: "",
+  selectedStatus: "Active", // Default to Active
+  selectedYears: [], // ✅ Use an empty array for multiple years
 };
 
+// ✅ Fix `years` Type in `NewsArticle`
 export type NewsArticle = {
   id: number;
   title: string;
@@ -23,12 +27,8 @@ export type NewsArticle = {
   publishedDate: string;
   endDate: string;
   status: "Active" | "Inactive";
-  category:
-    | "Important"
-    | "General"
-    | "Invitation"
-    | "Recruitment";
+  category: "Important" | "General" | "Invitation" | "Recruitment";
   link?: string; // Optional field
   photos: string[]; // Array of images
-  years: string[]; // ✅ Multiple selected years (Year 1 - Year 6)
+  years: number[]; // ✅ Change from `string[]` to `number[]` for easier filtering
 };
