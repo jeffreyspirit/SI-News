@@ -23,8 +23,6 @@ function NewsSearchBar({ initValue, handleFilter }: NewsSearchBarProps) {
     reset(initValue);
   }, [initValue]);
 
-  const availableYears = ["Year 1", "Year 2", "Year 3", "Year 4", "Year 5", "Year 6"];
-
   return (
     <form className="flex flex-col md:flex-row flex-wrap justify-center items-center gap-4 p-4 bg-white dark:bg-gray-800 shadow-md rounded-lg">
       <input

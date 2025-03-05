@@ -4,6 +4,7 @@ import NewsList from "@/features/news/NewsList";
 import NewsSearchBar from "@/features/news/NewsSearchBar";
 import { defaultNewsFilter, NewsFilter } from "@/features/news/schema";
 import { DeepPartial } from "react-hook-form";
+import { useState } from "react";
 
 export const Route = createFileRoute("/")({
   component: Page,
