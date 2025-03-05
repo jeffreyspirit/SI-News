@@ -5,16 +5,22 @@ import { newsFilterSchema, NewsFilter } from "./schema";
 
 type NewsSearchBarProps = {
   initValue: NewsFilter;
-  handleFilter: (data: Partial<NewsFilter>) => void;
+  handleFilter: (data: NewsFilter) => void;
 };
 
 function NewsSearchBar({ initValue, handleFilter }: NewsSearchBarProps) {
   const { register, watch, reset, setValue } = useForm<NewsFilter>({
     resolver: valibotResolver(newsFilterSchema),
+    defaultValues: initValue,
   });
 
   useEffect(() => {
-    const { unsubscribe } = watch((value) => handleFilter(value));
+    const { unsubscribe } = watch((value) => {
+      handleFilter({
+        ...value,
+        selectedYears: value.selectedYears?.filter(Boolean) || [], // ✅ Remove undefined values
+      });
+    });
     return () => unsubscribe();
   }, [watch]);
 
