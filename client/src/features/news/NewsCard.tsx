@@ -128,10 +128,9 @@ function NewsCard({ article }: NewsCardProps) {
               ✖
             </button>
             <h2 className="text-2xl font-bold mb-4">{title}</h2>
-            <p
-              className="text-gray-700 dark:text-gray-300"
-              dangerouslySetInnerHTML={{ __html: description.replace(/\n/g, "<br/>") }}
-            ></p>
+            <p className="whitespace-break-spaces text-gray-700 dark:text-gray-300">
+              {description}
+            </p>
           </div>
         </dialog>
       )}
