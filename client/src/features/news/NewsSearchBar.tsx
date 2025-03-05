@@ -8,7 +8,7 @@ type NewsSearchBarProps = {
   handleFilter: (data: Partial<NewsFilter>) => void;
 };
 
-const availableYears = [1, 2, 3, 4, 5, 6]; // Define available years
+const availableYears: number[] = [1, 2, 3, 4, 5, 6];
 
 function NewsSearchBar({ initValue, handleFilter }: NewsSearchBarProps) {
   const { register, watch, reset, setValue } = useForm<NewsFilter>({
@@ -17,11 +17,8 @@ function NewsSearchBar({ initValue, handleFilter }: NewsSearchBarProps) {
 
   useEffect(() => {
     const { unsubscribe } = watch((value) => {
-      const selectedYears =
-        value.selectedYears && Array.isArray(value.selectedYears)
-          ? value.selectedYears.map(Number)
-          : [];
-
+      // ✅ Ensure selectedYears is always an array of numbers
+      const selectedYears = (value.selectedYears || []).map(Number);
       handleFilter({ ...value, selectedYears });
     });
 
@@ -34,7 +31,6 @@ function NewsSearchBar({ initValue, handleFilter }: NewsSearchBarProps) {
 
   return (
     <form className="flex flex-col sm:flex-row flex-wrap justify-center gap-4 p-4 bg-white dark:bg-gray-800 shadow-md rounded-lg">
-      {/* 🔹 Search Input */}
       <input
         type="text"
         placeholder="Search news..."
@@ -42,7 +38,6 @@ function NewsSearchBar({ initValue, handleFilter }: NewsSearchBarProps) {
         {...register("searchQuery")}
       />
 
-      {/* 🔹 Category Filter */}
       <select className="p-2 border rounded-lg w-full sm:w-1/6" {...register("selectedCategory")}>
         <option value="">All Categories</option>
         <option value="Important">Important</option>
@@ -51,14 +46,13 @@ function NewsSearchBar({ initValue, handleFilter }: NewsSearchBarProps) {
         <option value="Recruitment">Recruitment</option>
       </select>
 
-      {/* 🔹 Status Filter (Active/Inactive) */}
       <select className="p-2 border rounded-lg w-full sm:w-1/6" {...register("selectedStatus")}>
         <option value="Active">Active (Default)</option>
         <option value="Inactive">Inactive</option>
         <option value="">All Status</option>
       </select>
 
-      {/* 🔹 Year Selection (Checkboxes) */}
+      {/* ✅ Year Selection (Checkboxes) */}
       <div className="flex flex-wrap gap-2 p-2 border rounded-lg shadow-sm">
         {availableYears.map((year) => (
           <label key={year} className="flex items-center space-x-2">
@@ -72,8 +66,8 @@ function NewsSearchBar({ initValue, handleFilter }: NewsSearchBarProps) {
                 setValue(
                   "selectedYears",
                   checked
-                    ? [...(initValue.selectedYears || []), value] // Add to selected
-                    : (initValue.selectedYears || []).filter((y) => y !== value) // Remove if unchecked
+                    ? [...(initValue.selectedYears || []), value]
+                    : (initValue.selectedYears || []).filter((y) => y !== value)
                 );
               }}
               className="form-checkbox h-5 w-5 text-blue-600"
