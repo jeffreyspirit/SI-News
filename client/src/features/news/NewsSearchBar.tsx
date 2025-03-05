@@ -11,11 +11,11 @@ type NewsSearchBarProps = {
 function NewsSearchBar({ initValue, handleFilter }: NewsSearchBarProps) {
   const { register, watch, reset } = useForm<NewsFilter>({
     resolver: valibotResolver(newsFilterSchema),
+    defaultValues: initValue,
   });
 
   useEffect(() => {
     const { unsubscribe } = watch((value) => handleFilter(value));
-
     return () => unsubscribe();
   }, [watch]);
 
@@ -23,9 +23,10 @@ function NewsSearchBar({ initValue, handleFilter }: NewsSearchBarProps) {
     reset(initValue);
   }, [initValue]);
 
+  const availableYears = ["Year 1", "Year 2", "Year 3", "Year 4", "Year 5", "Year 6"];
+
   return (
-    <form className="flex flex-col sm:flex-row flex-wrap justify-center gap-4 p-4 bg-white dark:bg-gray-800 shadow-md rounded-lg">
-      {/* 🔹 Search Input */}
+    <form className="flex flex-col md:flex-row flex-wrap justify-center items-center gap-4 p-4 bg-white dark:bg-gray-800 shadow-md rounded-lg">
       <input
         type="text"
         placeholder="Search news..."
@@ -33,11 +34,7 @@ function NewsSearchBar({ initValue, handleFilter }: NewsSearchBarProps) {
         {...register("searchQuery")}
       />
 
-      {/* 🔹 Category Filter */}
-      <select
-        className="p-2 border rounded-lg w-full sm:w-1/6"
-        {...register("selectedCategory")}
-      >
+      <select className="p-2 border rounded-lg w-full sm:w-1/6" {...register("selectedCategory")}>
         <option value="">All Categories</option>
         <option value="Important">Important</option>
         <option value="General">General</option>
@@ -52,7 +49,6 @@ function NewsSearchBar({ initValue, handleFilter }: NewsSearchBarProps) {
       >
         <option value="Active">Active (Default)</option>
         <option value="Inactive">Inactive</option>
-        <option value="">All Status</option>
       </select>
 
       {/* 🔹 Year Selection (Checkboxes) */}

@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { createFileRoute } from "@tanstack/react-router";
 import { useNews } from "@/features/news/hook";
 import NewsList from "@/features/news/NewsList";
@@ -16,9 +15,8 @@ function Page() {
   const [newsFilter, setNewsFilter] = useState<DeepPartial<NewsFilter>>(defaultNewsFilter);
   const { searchQuery, selectedCategory, selectedStatus, selectedYears } =
     newsFilter;
-
+  
   if (isLoading) return <h1>Loading...</h1>;
-
   if (error) return <h1>Error</h1>;
 
   const filteredNews = news?.filter(({ title, category, status, years }) => {

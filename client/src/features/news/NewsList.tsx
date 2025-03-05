@@ -1,3 +1,4 @@
+
 import { NewsArticle } from "./schema";
 import NewsCard from "./NewsCard";
 

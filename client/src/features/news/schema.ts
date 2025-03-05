@@ -9,7 +9,7 @@ export const newsFilterSchema = v.object({
 
 export type NewsFilter = v.InferOutput<typeof newsFilterSchema>;
 
-export const defaultNewsFilter = {
+export const defaultNewsFilter: NewsFilter = {
   searchQuery: "",
   selectedCategory: "",
   selectedStatus: "Active",
@@ -23,12 +23,8 @@ export type NewsArticle = {
   publishedDate: string;
   endDate: string;
   status: "Active" | "Inactive";
-  category:
-    | "Important"
-    | "General"
-    | "Invitation"
-    | "Recruitment";
-  link?: string; // Optional field
-  photos: string[]; // Array of images
-  years: string[]; // ✅ Multiple selected years (Year 1 - Year 6)
+  category: "Important" | "General" | "Invitation" | "Recruitment";
+  link?: string;
+  photos: string[];
+  years: string[];
 };
