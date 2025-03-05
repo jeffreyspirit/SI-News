@@ -15,10 +15,10 @@ function NewsSearchBar({ initValue, handleFilter }: NewsSearchBarProps) {
   });
 
   useEffect(() => {
-    const { unsubscribe } = watch((value) => {
+    const { unsubscribe } = watch((value: NewsFilter) => {
       handleFilter({
         ...value,
-        selectedYears: value.selectedYears?.filter(Boolean) || [], // ✅ Remove undefined values
+        selectedYears: value.selectedYears?.filter((y: string) => Boolean(y)) || [], // ✅ Remove undefined values
       });
     });
     return () => unsubscribe();
@@ -66,7 +66,7 @@ function NewsSearchBar({ initValue, handleFilter }: NewsSearchBarProps) {
                   "selectedYears",
                   checked
                     ? [...(watch("selectedYears") || []), year] // Add year if checked
-                    : (watch("selectedYears") || []).filter((y) => y !== year) // Remove if unchecked
+                    : (watch("selectedYears") || []).filter((y: string) => y !== year) // Remove if unchecked
                 );
               }}
               className="form-checkbox h-5 w-5 text-blue-600"
