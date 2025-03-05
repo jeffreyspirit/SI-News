@@ -4,7 +4,7 @@ export const newsFilterSchema = v.object({
   searchQuery: v.string(),
   selectedCategory: v.string(),
   selectedStatus: v.string(),
-  selectedYear: v.string(),
+  selectedYears: v.array(v.string()),
 });
 
 export type NewsFilter = v.InferOutput<typeof newsFilterSchema>;
@@ -12,8 +12,8 @@ export type NewsFilter = v.InferOutput<typeof newsFilterSchema>;
 export const defaultNewsFilter = {
   searchQuery: "",
   selectedCategory: "",
-  selectedStatus: "",
-  selectedYear: "",
+  selectedStatus: "Active",
+  selectedYears: ["Year 1", "Year 2", "Year 3", "Year 4", "Year 5", "Year 6"],
 };
 
 export type NewsArticle = {

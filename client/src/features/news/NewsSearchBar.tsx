@@ -1,29 +1,20 @@
 import { valibotResolver } from "@hookform/resolvers/valibot";
 import { useEffect } from "react";
-import { useForm } from "react-hook-form";
+import { DeepPartial, useForm } from "react-hook-form";
 import { newsFilterSchema, NewsFilter } from "./schema";
 
 type NewsSearchBarProps = {
   initValue: NewsFilter;
-  handleFilter: (data: Partial<NewsFilter>) => void;
+  handleFilter: (data: DeepPartial<NewsFilter>) => void;
 };
 
-const availableYears = [1, 2, 3, 4, 5, 6]; // Define available years
-
 function NewsSearchBar({ initValue, handleFilter }: NewsSearchBarProps) {
-  const { register, watch, reset, setValue } = useForm<NewsFilter>({
+  const { register, watch, reset } = useForm<NewsFilter>({
     resolver: valibotResolver(newsFilterSchema),
   });
 
   useEffect(() => {
-    const { unsubscribe } = watch((value) => {
-      const selectedYears =
-        value.selectedYears && Array.isArray(value.selectedYears)
-          ? value.selectedYears.map(Number)
-          : [];
-
-      handleFilter({ ...value, selectedYears });
-    });
+    const { unsubscribe } = watch((value) => handleFilter(value));
 
     return () => unsubscribe();
   }, [watch]);
@@ -43,7 +34,10 @@ function NewsSearchBar({ initValue, handleFilter }: NewsSearchBarProps) {
       />
 
       {/* 🔹 Category Filter */}
-      <select className="p-2 border rounded-lg w-full sm:w-1/6" {...register("selectedCategory")}>
+      <select
+        className="p-2 border rounded-lg w-full sm:w-1/6"
+        {...register("selectedCategory")}
+      >
         <option value="">All Categories</option>
         <option value="Important">Important</option>
         <option value="General">General</option>
@@ -52,7 +46,10 @@ function NewsSearchBar({ initValue, handleFilter }: NewsSearchBarProps) {
       </select>
 
       {/* 🔹 Status Filter (Active/Inactive) */}
-      <select className="p-2 border rounded-lg w-full sm:w-1/6" {...register("selectedStatus")}>
+      <select
+        className="p-2 border rounded-lg w-full sm:w-1/6"
+        {...register("selectedStatus")}
+      >
         <option value="Active">Active (Default)</option>
         <option value="Inactive">Inactive</option>
         <option value="">All Status</option>
@@ -60,27 +57,18 @@ function NewsSearchBar({ initValue, handleFilter }: NewsSearchBarProps) {
 
       {/* 🔹 Year Selection (Checkboxes) */}
       <div className="flex flex-wrap gap-2 p-2 border rounded-lg shadow-sm">
-        {availableYears.map((year) => (
-          <label key={year} className="flex items-center space-x-2">
-            <input
-              type="checkbox"
-              value={year}
-              {...register("selectedYears")}
-              onChange={(e) => {
-                const checked = e.target.checked;
-                const value = Number(e.target.value);
-                setValue(
-                  "selectedYears",
-                  checked
-                    ? [...(initValue.selectedYears || []), value] // Add to selected
-                    : (initValue.selectedYears || []).filter((y) => y !== value) // Remove if unchecked
-                );
-              }}
-              className="form-checkbox h-5 w-5 text-blue-600"
-            />
-            <span className="text-gray-700 dark:text-gray-300">Year {year}</span>
-          </label>
-        ))}
+        <input type="checkbox" {...register("selectedYears")} value="Year 1" />
+        <label>Year 1</label>
+        <input type="checkbox" {...register("selectedYears")} value="Year 2" />
+        <label>Year 2</label>
+        <input type="checkbox" {...register("selectedYears")} value="Year 3" />
+        <label>Year 3</label>
+        <input type="checkbox" {...register("selectedYears")} value="Year 4" />
+        <label>Year 4</label>
+        <input type="checkbox" {...register("selectedYears")} value="Year 5" />
+        <label>Year 5</label>
+        <input type="checkbox" {...register("selectedYears")} value="Year 6" />
+        <label>Year 6</label>
       </div>
     </form>
   );

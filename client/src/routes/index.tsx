@@ -4,6 +4,7 @@ import { useNews } from "@/features/news/hook";
 import NewsList from "@/features/news/NewsList";
 import NewsSearchBar from "@/features/news/NewsSearchBar";
 import { defaultNewsFilter, NewsFilter } from "@/features/news/schema";
+import { DeepPartial } from "react-hook-form";
 
 export const Route = createFileRoute("/")({
   component: Page,
@@ -12,8 +13,8 @@ export const Route = createFileRoute("/")({
 function Page() {
   const { data: news, isLoading, error } = useNews();
 
-  const [newsFilter, setNewsFilter] = useState<Partial<NewsFilter>>(defaultNewsFilter);
-  const { searchQuery, selectedCategory, selectedStatus, selectedYear } =
+  const [newsFilter, setNewsFilter] = useState<DeepPartial<NewsFilter>>(defaultNewsFilter);
+  const { searchQuery, selectedCategory, selectedStatus, selectedYears } =
     newsFilter;
 
   if (isLoading) return <h1>Loading...</h1>;
@@ -25,9 +26,13 @@ function Page() {
       (!searchQuery || title.toLowerCase().includes(searchQuery.toLowerCase())) &&
       (!selectedCategory || category === selectedCategory) &&
       (!selectedStatus || status === selectedStatus) &&
-      (!selectedYear || years.includes(selectedYear))
+      (!selectedYears || years.some(year => selectedYears.includes(year)))
     );
   });
+
+  const sortedNews = filteredNews?.sort(
+    (a, b) => new Date(b.publishedDate).getTime() - new Date(a.publishedDate).getTime()
+  );
 
   return (
     <section className="p-6">
@@ -36,7 +41,7 @@ function Page() {
         initValue={defaultNewsFilter}
         handleFilter={setNewsFilter}
       />
-      <NewsList news={filteredNews} />
+      <NewsList news={sortedNews} />
     </section>
   );
 }
