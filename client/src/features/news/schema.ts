@@ -1,11 +1,11 @@
 import * as v from "valibot";
 
-// ✅ Ensure `selectedYears` is an array of **numbers**, not strings
+// ✅ Ensure `selectedYears` is an array of **numbers**
 export const newsFilterSchema = v.object({
   searchQuery: v.string(),
   selectedCategory: v.string(),
   selectedStatus: v.string(),
-  selectedYears: v.array(v.number()), // ✅ Change from `string` to `number`
+  selectedYears: v.array(v.number()), // ✅ Corrected to use `number[]`
 });
 
 // ✅ Correctly define the type for filtering
@@ -13,7 +13,15 @@ export type NewsFilter = {
   searchQuery?: string;
   selectedCategory?: string;
   selectedStatus?: "Active" | "Inactive" | "";
-  selectedYears?: number[]; // ✅ Ensure this is always a number[]
+  selectedYears?: number[];
+};
+
+// ✅ **Re-add `defaultNewsFilter`**
+export const defaultNewsFilter: NewsFilter = {
+  searchQuery: "",
+  selectedCategory: "",
+  selectedStatus: "Active", // ✅ Default to Active
+  selectedYears: [], // ✅ Use an empty array for multiple years
 };
 
 // ✅ Fix `years` Type in `NewsArticle`
