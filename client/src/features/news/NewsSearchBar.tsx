@@ -2,6 +2,7 @@ import { valibotResolver } from "@hookform/resolvers/valibot";
 import { useEffect } from "react";
 import { DeepPartial, useForm } from "react-hook-form";
 import { newsFilterSchema, NewsFilter } from "./schema";
+import { Icon } from "@iconify/react";
 
 type NewsSearchBarProps = {
   initValue: NewsFilter;
@@ -24,15 +25,18 @@ function NewsSearchBar({ initValue, handleFilter }: NewsSearchBarProps) {
   }, [initValue]);
 
   return (
-    <form className="flex flex-col md:flex-row flex-wrap justify-center items-center gap-4 p-4 bg-white dark:bg-gray-800 shadow-md rounded-lg">
+    <form className="my-6 grid md:grid-cols-[1fr_auto_auto] gap-3 p-4 bg-white dark:bg-gray-800 rounded-lg shadow-md">
       <input
         type="text"
         placeholder="Search news..."
-        className="p-2 border rounded-lg shadow-sm focus:ring-2 focus:ring-blue-400 outline-none w-full sm:w-2/4"
+        className="p-2 border rounded-lg"
         {...register("searchQuery")}
       />
 
-      <select className="p-2 border rounded-lg w-full sm:w-1/6" {...register("selectedCategory")}>
+      <select
+        className="p-2 border rounded-lg"
+        {...register("selectedCategory")}
+      >
         <option value="">All Categories</option>
         <option value="Important">Important</option>
         <option value="General">General</option>
@@ -42,7 +46,7 @@ function NewsSearchBar({ initValue, handleFilter }: NewsSearchBarProps) {
 
       {/* 🔹 Status Filter (Active/Inactive) */}
       <select
-        className="p-2 border rounded-lg w-full sm:w-1/6"
+        className="p-2 border rounded-lg"
         {...register("selectedStatus")}
       >
         <option value="Active">Active (Default)</option>
@@ -50,19 +54,61 @@ function NewsSearchBar({ initValue, handleFilter }: NewsSearchBarProps) {
       </select>
 
       {/* 🔹 Year Selection (Checkboxes) */}
-      <div className="flex flex-wrap gap-2 p-2 border rounded-lg shadow-sm">
-        <input type="checkbox" {...register("selectedYears")} value="Year 1" />
-        <label>Year 1</label>
-        <input type="checkbox" {...register("selectedYears")} value="Year 2" />
-        <label>Year 2</label>
-        <input type="checkbox" {...register("selectedYears")} value="Year 3" />
-        <label>Year 3</label>
-        <input type="checkbox" {...register("selectedYears")} value="Year 4" />
-        <label>Year 4</label>
-        <input type="checkbox" {...register("selectedYears")} value="Year 5" />
-        <label>Year 5</label>
-        <input type="checkbox" {...register("selectedYears")} value="Year 6" />
-        <label>Year 6</label>
+      <div className="w-full md:col-span-3 grid grid-cols-3 md:grid-cols-6 p-2 bg-white border rounded-lg">
+        <div>
+          <input
+            type="checkbox"
+            className="me-2"
+            {...register("selectedYears")}
+            value="Year 1"
+          />
+          <label>Year 1</label>
+        </div>
+        <div>
+          <input
+            type="checkbox"
+            className="me-2"
+            {...register("selectedYears")}
+            value="Year 2"
+          />
+          <label>Year 2</label>
+        </div>
+        <div>
+          <input
+            type="checkbox"
+            className="me-2"
+            {...register("selectedYears")}
+            value="Year 3"
+          />
+          <label>Year 3</label>
+        </div>
+        <div>
+          <input
+            type="checkbox"
+            className="me-2"
+            {...register("selectedYears")}
+            value="Year 4"
+          />
+          <label>Year 4</label>
+        </div>
+        <div>
+          <input
+            type="checkbox"
+            className="me-2"
+            {...register("selectedYears")}
+            value="Year 5"
+          />
+          <label>Year 5</label>
+        </div>
+        <div>
+          <input
+            type="checkbox"
+            className="me-2"
+            {...register("selectedYears")}
+            value="Year 6"
+          />
+          <label>Year 6</label>
+        </div>
       </div>
     </form>
   );

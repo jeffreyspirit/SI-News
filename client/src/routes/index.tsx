@@ -34,8 +34,8 @@ function Page() {
   );
 
   return (
-    <section className="p-6">
-      <h1 className="text-3xl font-bold text-center mb-6">📰 Latest News</h1>
+    <section className="container mx-auto p-4 gap-y-2">
+      <h1 className="text-3xl font-bold text-center my-6">📰 Latest News</h1>
       <NewsSearchBar
         initValue={defaultNewsFilter}
         handleFilter={setNewsFilter}

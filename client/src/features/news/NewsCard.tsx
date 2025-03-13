@@ -50,6 +50,7 @@ function NewsCard({ article }: NewsCardProps) {
         <img
           src={photos.length > 0 ? photos[0] : emptyImage}
           alt={title}
+          referrerPolicy="no-referrer"
           className="w-full h-40 object-cover rounded"
         />
 

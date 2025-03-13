@@ -11,13 +11,13 @@ function NewsList({ news }: NewsListProps) {
 
   if (news.length <= 0)
     return (
-      <p className="container mx-auto p-4 text-gray-500 dark:text-gray-400 text-center col-span-full">
+      <p className="my-2 text-gray-500 dark:text-gray-400 text-center col-span-full">
         No news available.
       </p>
     );
 
   return (
-    <div className="container mx-auto p-4 grid grid-cols-1 md:grid-cols-3 lg:grid-cols-3 gap-6">
+    <div className="my-6 grid md:grid-cols-2 xl:grid-cols-3 gap-6">
       {news.map((article) => (
         <NewsCard key={article.id} article={article} />
       ))}
