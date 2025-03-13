@@ -2,7 +2,7 @@ import { valibotResolver } from "@hookform/resolvers/valibot";
 import { useEffect } from "react";
 import { DeepPartial, useForm } from "react-hook-form";
 import { newsFilterSchema, NewsFilter } from "./schema";
-import { Icon } from "@iconify/react";
+// import { Icon } from "@iconify/react";
 
 type NewsSearchBarProps = {
   initValue: NewsFilter;
