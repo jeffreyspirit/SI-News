@@ -106,14 +106,14 @@ function NewsCard({ article }: NewsCardProps) {
         </div>
       </div>
 
-      {/* 🔹 Flexbox-Based Modal */}
+      {/* 🔹 Responsive, Scrollable Flexbox-Based Modal */}
       {isOpen && (
         <div
-          className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50"
+          className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50 p-4"
           onClick={() => setIsOpen(false)}
         >
           <div
-            className="bg-white dark:bg-gray-800 rounded-lg p-6 max-w-lg w-full relative"
+            className="bg-white dark:bg-gray-800 rounded-lg p-6 w-full max-w-3xl max-h-[80vh] overflow-y-auto relative"
             onClick={(e) => e.stopPropagation()} // Prevent closing when clicking inside
           >
             {/* Close Button */}
@@ -126,7 +126,7 @@ function NewsCard({ article }: NewsCardProps) {
 
             {/* Modal Content */}
             <h2 className="text-2xl font-bold mb-4">{title}</h2>
-            <p className="whitespace-break-spaces text-gray-700 dark:text-gray-300">
+            <p className="whitespace-pre-wrap text-gray-700 dark:text-gray-300">
               {description}
             </p>
           </div>
