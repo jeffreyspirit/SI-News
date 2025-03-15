@@ -64,15 +64,17 @@ function NewsCard({ article }: NewsCardProps) {
           </p>
 
           {/* Read More Button */}
-          <button
-            className="mt-2 px-3 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition"
+          {/* 🔹 Read More as Underlined Text (Instead of a Button) */}
+          <p
+            className="mt-2 text-blue-500 underline cursor-pointer hover:text-blue-600 transition"
             onClick={(e) => {
               e.stopPropagation();
               setIsOpen(true);
             }}
           >
             Read More
-          </button>
+          </p>
+
 
           {/* Year Tags */}
           <div className="flex gap-2 mt-2">
