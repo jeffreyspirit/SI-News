@@ -1,4 +1,4 @@
-import { useRef, useState, useEffect } from "react";
+import { useState } from "react";
 import { NewsArticle } from "./schema";
 import emptyImage from "@/assets/empty.jpg";
 
@@ -20,32 +20,14 @@ function NewsCard({ article }: NewsCardProps) {
   } = article;
 
   const [isOpen, setIsOpen] = useState(false);
-  const dialogRef = useRef<HTMLDialogElement>(null);
-
-  useEffect(() => {
-    if (dialogRef.current) {
-      dialogRef.current.close();
-    }
-  }, []);
-
-  const openModal = (e: React.MouseEvent) => {
-    e.stopPropagation();
-    setIsOpen(true);
-    if (dialogRef.current) {
-      dialogRef.current.showModal();
-    }
-  };
-
-  const closeModal = () => {
-    setIsOpen(false);
-    if (dialogRef.current) {
-      dialogRef.current.close();
-    }
-  };
 
   return (
     <>
-      <div className="bg-white dark:bg-gray-800 shadow-md rounded-lg border border-gray-300 dark:border-gray-700 transition-transform hover:scale-105 hover:shadow-lg p-4 flex flex-col h-full">
+      {/* News Item Card */}
+      <div
+        className="bg-white dark:bg-gray-800 shadow-md rounded-lg border border-gray-300 dark:border-gray-700 transition-transform hover:scale-105 hover:shadow-lg p-4 flex flex-col h-full cursor-pointer"
+        onClick={() => setIsOpen(true)}
+      >
         {/* Display first image (or default placeholder if none) */}
         <img
           src={photos.length > 0 ? photos[0] : emptyImage}
@@ -81,10 +63,13 @@ function NewsCard({ article }: NewsCardProps) {
             {description.slice(0, 100)}...
           </p>
 
-          {/* Read More Button (Opens Modal) */}
+          {/* Read More Button */}
           <button
             className="mt-2 px-3 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition"
-            onClick={openModal}
+            onClick={(e) => {
+              e.stopPropagation();
+              setIsOpen(true);
+            }}
           >
             Read More
           </button>
@@ -121,19 +106,31 @@ function NewsCard({ article }: NewsCardProps) {
         </div>
       </div>
 
-      {/* 🔹 Render Dialog Only When `isOpen === true` */}
+      {/* 🔹 Flexbox-Based Modal */}
       {isOpen && (
-        <dialog ref={dialogRef} className="dialog-overlay" onClick={closeModal}>
-          <div className="dialog-content" onClick={(e) => e.stopPropagation()}>
-            <button className="close-button" onClick={closeModal}>
+        <div
+          className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50"
+          onClick={() => setIsOpen(false)}
+        >
+          <div
+            className="bg-white dark:bg-gray-800 rounded-lg p-6 max-w-lg w-full relative"
+            onClick={(e) => e.stopPropagation()} // Prevent closing when clicking inside
+          >
+            {/* Close Button */}
+            <button
+              className="absolute top-3 right-3 text-gray-500 dark:text-gray-300 text-2xl hover:text-gray-800 dark:hover:text-white"
+              onClick={() => setIsOpen(false)}
+            >
               ✖
             </button>
+
+            {/* Modal Content */}
             <h2 className="text-2xl font-bold mb-4">{title}</h2>
             <p className="whitespace-break-spaces text-gray-700 dark:text-gray-300">
               {description}
             </p>
           </div>
-        </dialog>
+        </div>
       )}
     </>
   );
