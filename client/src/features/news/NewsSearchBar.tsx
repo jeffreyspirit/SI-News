@@ -9,7 +9,9 @@ type NewsSearchBarProps = {
   handleFilter: (data: DeepPartial<NewsFilter>) => void;
 };
 
-const yearOptions = [
+type SelectOption = { value: string; label: string };
+
+const yearOptions: SelectOption[] = [
   { value: "Year 1", label: "Year 1" },
   { value: "Year 2", label: "Year 2" },
   { value: "Year 3", label: "Year 3" },
@@ -75,6 +77,7 @@ function NewsSearchBar({ initValue, handleFilter }: NewsSearchBarProps) {
               classNamePrefix="select"
               placeholder="Select years..."
               closeMenuOnSelect={false}
+              value={yearOptions.filter(option => field.value?.includes(option.value))} // ✅ Fix value mapping
               onChange={(selectedOptions) => {
                 field.onChange(selectedOptions.map((opt) => opt.value));
               }}
