@@ -21,6 +21,26 @@ function NewsCard({ article }: NewsCardProps) {
 
   const [isOpen, setIsOpen] = useState(false);
 
+  // 🔹 Function to detect and format links inside the description
+  const formatDescription = (text: string) => {
+    const urlRegex = /(https?:\/\/[^\s]+)/g;
+    return text.split(urlRegex).map((part, index) =>
+      urlRegex.test(part) ? (
+        <a
+          key={index}
+          href={part}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="text-blue-500 underline hover:text-blue-600 transition"
+        >
+          {part}
+        </a>
+      ) : (
+        <span key={index}>{part}</span>
+      )
+    );
+  };
+
   return (
     <>
       {/* News Item Card */}
@@ -58,13 +78,12 @@ function NewsCard({ article }: NewsCardProps) {
             </span>
           </div>
 
-          {/* Shortened Description */}
+          {/* Shortened Description with Underlined Links */}
           <p className="text-gray-600 dark:text-gray-300 mt-2 text-sm flex-grow">
-            {description.slice(0, 100)}...
+            {formatDescription(description.slice(0, 100))}...
           </p>
 
-          {/* Read More Button */}
-          {/* 🔹 Read More as Underlined Text (Instead of a Button) */}
+          {/* Read More as Underlined Text */}
           <p
             className="mt-2 text-blue-500 underline cursor-pointer hover:text-blue-600 transition"
             onClick={(e) => {
@@ -74,7 +93,6 @@ function NewsCard({ article }: NewsCardProps) {
           >
             Read More
           </p>
-
 
           {/* Year Tags */}
           <div className="flex gap-2 mt-2">
@@ -129,7 +147,7 @@ function NewsCard({ article }: NewsCardProps) {
             {/* Modal Content */}
             <h2 className="text-2xl font-bold mb-4">{title}</h2>
             <p className="whitespace-pre-wrap text-gray-700 dark:text-gray-300">
-              {description}
+              {formatDescription(description)}
             </p>
           </div>
         </div>
