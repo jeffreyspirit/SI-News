@@ -36,17 +36,17 @@ function NewsSearchBar({ initValue, handleFilter }: NewsSearchBarProps) {
   }, [initValue]);
 
   return (
-    <form className="my-6 grid md:grid-cols-[1fr_auto_auto] gap-3 p-4 bg-white dark:bg-gray-800 rounded-lg shadow-md">
-      {/* 🔹 Search Input */}
+    <form className="my-6 grid grid-cols-1 md:grid-cols-[1fr_auto_auto_auto] gap-3 p-4 bg-white dark:bg-gray-800 rounded-lg shadow-md">
+      {/* 🔹 Search Input (Smaller Width) */}
       <input
         type="text"
-        placeholder="Search news..."
-        className="p-2 border rounded-lg"
+        placeholder="🔎 Search news..."
+        className="p-2 border rounded-lg w-60"
         {...register("searchQuery")}
       />
 
       {/* 🔹 Category Selection */}
-      <select className="p-2 border rounded-lg" {...register("selectedCategory")}>
+      <select className="p-2 border rounded-lg w-40" {...register("selectedCategory")}>
         <option value="">All Categories</option>
         <option value="Important">Important</option>
         <option value="General">General</option>
@@ -55,16 +55,13 @@ function NewsSearchBar({ initValue, handleFilter }: NewsSearchBarProps) {
       </select>
 
       {/* 🔹 Status Selection */}
-      <select className="p-2 border rounded-lg" {...register("selectedStatus")}>
+      <select className="p-2 border rounded-lg w-40" {...register("selectedStatus")}>
         <option value="Active">Active (Default)</option>
         <option value="Inactive">Inactive</option>
       </select>
 
       {/* 🔹 Multi-Select Dropdown for Year Selection */}
-      <div className="w-full md:col-span-3">
-        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-          Select Years
-        </label>
+      <div className="w-52">
         <Controller
           name="selectedYears"
           control={control}
@@ -75,9 +72,9 @@ function NewsSearchBar({ initValue, handleFilter }: NewsSearchBarProps) {
               isMulti
               className="basic-multi-select"
               classNamePrefix="select"
-              placeholder="Select years..."
+              placeholder="Select Years"
               closeMenuOnSelect={false}
-              value={yearOptions.filter(option => field.value?.includes(option.value))} // ✅ Fix value mapping
+              value={yearOptions.filter(option => field.value?.includes(option.value))}
               onChange={(selectedOptions) => {
                 field.onChange(selectedOptions.map((opt) => opt.value));
               }}
