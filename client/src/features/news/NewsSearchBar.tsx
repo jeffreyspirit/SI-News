@@ -1,7 +1,7 @@
 import { valibotResolver } from "@hookform/resolvers/valibot";
 import { useEffect, useState } from "react";
 import { DeepPartial, useForm, Controller } from "react-hook-form";
-import Select from "react-select";
+import Select, { MultiValue, SingleValue } from "react-select";
 import { newsFilterSchema, NewsFilter } from "./schema";
 
 type NewsSearchBarProps = {
@@ -94,11 +94,15 @@ function NewsSearchBar({ initValue, handleFilter }: NewsSearchBarProps) {
                 name="selectedCategory"
                 control={control}
                 render={({ field }) => (
-                  <Select
+                  <Select<SelectOption>
                     {...field}
                     options={categoryOptions}
                     classNamePrefix="select"
                     placeholder="Select Category"
+                    value={categoryOptions.find((opt) => opt.value === field.value)}
+                    onChange={(selectedOption: SingleValue<SelectOption>) => {
+                      field.onChange(selectedOption?.value || "");
+                    }}
                   />
                 )}
               />
@@ -113,11 +117,15 @@ function NewsSearchBar({ initValue, handleFilter }: NewsSearchBarProps) {
                 name="selectedStatus"
                 control={control}
                 render={({ field }) => (
-                  <Select
+                  <Select<SelectOption>
                     {...field}
                     options={statusOptions}
                     classNamePrefix="select"
                     placeholder="Select Status"
+                    value={statusOptions.find((opt) => opt.value === field.value)}
+                    onChange={(selectedOption: SingleValue<SelectOption>) => {
+                      field.onChange(selectedOption?.value || "");
+                    }}
                   />
                 )}
               />
@@ -132,15 +140,15 @@ function NewsSearchBar({ initValue, handleFilter }: NewsSearchBarProps) {
                 name="selectedYears"
                 control={control}
                 render={({ field }) => (
-                  <Select
+                  <Select<SelectOption>
                     {...field}
                     options={yearOptions}
                     isMulti
                     classNamePrefix="select"
                     placeholder="Select Years"
                     closeMenuOnSelect={false}
-                    value={yearOptions.filter(option => field.value?.includes(option.value))}
-                    onChange={(selectedOptions) => {
+                    value={yearOptions.filter((opt) => field.value?.includes(opt.value))}
+                    onChange={(selectedOptions: MultiValue<SelectOption>) => {
                       field.onChange(selectedOptions.map((opt) => opt.value));
                     }}
                   />
