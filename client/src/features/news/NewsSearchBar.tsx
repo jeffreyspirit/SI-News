@@ -74,7 +74,7 @@ function NewsSearchBar({ initValue, handleFilter }: NewsSearchBarProps) {
       {/* 🔹 Filter Modal */}
       {isFilterOpen && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-          <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-lg w-full max-w-md">
+          <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-lg w-full max-w-md relative">
             {/* Close Button */}
             <button
               className="absolute top-4 right-4 text-gray-600 dark:text-gray-300 text-xl"
@@ -94,7 +94,7 @@ function NewsSearchBar({ initValue, handleFilter }: NewsSearchBarProps) {
                 name="selectedCategory"
                 control={control}
                 render={({ field }) => (
-                  <Select<SelectOption>
+                  <Select<SelectOption, false>
                     {...field}
                     options={categoryOptions}
                     classNamePrefix="select"
@@ -117,7 +117,7 @@ function NewsSearchBar({ initValue, handleFilter }: NewsSearchBarProps) {
                 name="selectedStatus"
                 control={control}
                 render={({ field }) => (
-                  <Select<SelectOption>
+                  <Select<SelectOption, false>
                     {...field}
                     options={statusOptions}
                     classNamePrefix="select"
@@ -140,10 +140,10 @@ function NewsSearchBar({ initValue, handleFilter }: NewsSearchBarProps) {
                 name="selectedYears"
                 control={control}
                 render={({ field }) => (
-                  <Select<SelectOption>
+                  <Select<SelectOption, true> // ✅ Explicitly set isMulti as true
                     {...field}
                     options={yearOptions}
-                    isMulti
+                    isMulti={true}
                     classNamePrefix="select"
                     placeholder="Select Years"
                     closeMenuOnSelect={false}
