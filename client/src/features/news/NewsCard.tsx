@@ -83,7 +83,7 @@ function NewsCard({ article }: NewsCardProps) {
                 key={year}
                 className="px-2 py-1 text-xs font-semibold rounded-full bg-purple-100 text-purple-600 dark:bg-purple-900 dark:text-purple-300"
               >
-                Year {year}
+                {year}
               </span>
             ))}
           </div>
