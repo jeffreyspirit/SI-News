@@ -51,25 +51,27 @@ function NewsSearchBar({ initValue, handleFilter }: NewsSearchBarProps) {
   }, [initValue]);
 
   return (
-    <>
-      {/* 🔹 Search Bar with Filter Button */}
-      <form className="my-6 flex items-center gap-3 bg-white dark:bg-gray-800 rounded-lg shadow-md p-3">
+     <>
+      {/* 🔹 Search Bar with Filter Button (Filter on Right) */}
+      <form className="my-6 grid grid-cols-6 gap-3 bg-white dark:bg-gray-800 rounded-lg shadow-md p-3">
+        {/* 🔹 Search Bar (5/6 width, Left Side) */}
         <input
           type="text"
           placeholder="🔎 Search news..."
-          className="p-2 border rounded-lg w-full md:w-60"
+          className="p-2 border rounded-lg col-span-5 w-full"
           {...register("searchQuery")}
         />
-
-        {/* Filter Button */}
+    
+        {/* 🔹 Filter Button (1/6 width, Right Side) */}
         <button
           type="button"
-          className="p-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition"
+          className="p-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition col-span-1"
           onClick={() => setIsFilterOpen(true)}
         >
           ⚙️ Filter
         </button>
       </form>
+
 
       {/* 🔹 Filter Modal */}
       {isFilterOpen && (
